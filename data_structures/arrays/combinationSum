@@ -1,0 +1,48 @@
+from typing import List
+
+def combination_sum(candidates: List[int], target: int) -> List[List[int]]:
+    """
+    Finds all unique combinations of numbers from the candidates list that sum up to the target.
+    A number can be used multiple times in the combinations.
+
+    Parameters:
+    candidates (List[int]): The list of distinct candidate numbers.
+    target (int): The target sum to reach using the numbers in candidates.
+
+    Returns:
+    List[List[int]]: A list of unique combinations where the sum of the numbers equals the target.
+
+    Examples:
+    >>> combination_sum([2, 3, 6, 7], 7)
+    [[2, 2, 3], [7]]
+    >>> combination_sum([2, 3, 5], 8)
+    [[2, 2, 2, 2], [2, 3, 3], [3, 5]]
+    >>> combination_sum([2], 1)
+    []
+    """
+
+    def helper(candidates, start, target, current_combination, result):
+        if target == 0:
+            result.append(current_combination)
+            return
+        if target < 0:
+            return
+
+        for i in range(start, len(candidates)):
+            helper(candidates, i, target - candidates[i], current_combination + [candidates[i]], result)
+
+    result = []
+    helper(candidates, 0, target, [], result)
+    return result
+
+
+if __name__ == "__main__":
+    examples = [
+        ([2, 3, 6, 7], 7),
+        ([2, 3, 5], 8),
+        ([2], 1),
+    ]
+
+    for candidates, target in examples:
+        combinations = combination_sum(candidates, target)
+        print(f"Combinations for {candidates} with target {target}: {combinations}")
